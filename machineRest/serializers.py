@@ -6,6 +6,7 @@ class CsvSerializer(serializers.HyperlinkedModelSerializer):
     csvFile = serializers.FileField()
     imageFile = serializers.ImageField(required=False)
 
+
     def create(self,validated_data):
         return CsvModel.objects.create(**validated_data)
 

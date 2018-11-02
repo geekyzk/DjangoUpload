@@ -11,7 +11,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from django.core.files.base import ContentFile
 import os
-from yinlzDjango.settings import MEDIA_ROOT
+from djangoUpload.settings import MEDIA_ROOT
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 class CsvViewSet(viewsets.ModelViewSet):
@@ -21,6 +22,7 @@ class CsvViewSet(viewsets.ModelViewSet):
     queryset = CsvModel.objects.all()
     serializer_class = CsvSerializer
 
+    @csrf_exempt
     def create(self, request, *args, **kwargs):
         file_ = request.data['csvFile']
         print(type(file_))
