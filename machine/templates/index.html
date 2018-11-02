@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;width: 100%" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>学习分析</title>
+    <link rel="stylesheet" href="/statics/css/bootstrap.css"/>
+    <script src="/statics/jquery.js"></script>
+    <script src="/statics/js/bootstrap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body style="height: 100%;width: 100%">
+<div class="container-fluid" style="height: 100%;width: 100%" id="content">
+    <div class="row" style="height: 50%">
+        <div class="col-md-6" style="height: 100%">
+            <div class="col-md-2">
+                <form enctype="multipart/form-data">
+                    <input type="file" name="csvFile" v-on:change="fileChange(form1,$event.target.files)" />
+                    <button type="button" v-on:click="upload(form1)">Upload</button>
+                </form>
+            </div>
+            <div class="col-md-10">
+                <img :src="form1.imageFile" style="width: 100%;">
+            </div>
+        </div>
+        <div class="col-md-6" style="height: 100%">
+            <div class="col-md-2">
+                <form enctype="multipart/form-data">
+                    <input type="file" name="csvFile" v-on:change="fileChange(form2,$event.target.files)" />
+                    <button type="button" v-on:click="upload(form2)">Upload</button>
+                </form>
+            </div>
+            <div class="col-md-10">
+                <img :src="form2.imageFile" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="height: 50%">
+        <div class="col-md-6" style="height: 100%">
+            <div class="col-md-2">
+                <form enctype="multipart/form-data">
+                    <input type="file" name="csvFile" v-on:change="fileChange(form3,$event.target.files)" />
+                    <button type="button" v-on:click="upload(form3)">Upload</button>
+                </form>
+            </div>
+            <div class="col-md-10">
+                <img :src="form3.imageFile" style="width: 100%;">
+            </div>
+        </div>
+        <div class="col-md-6" style="height: 100%">
+            <div class="col-md-2">
+                <form enctype="multipart/form-data">
+                    <input type="file" name="csvFile" v-on:change="fileChange(form4,$event.target.files)" />
+                    <button type="button" v-on:click="upload(form4)">Upload</button>
+                </form>
+            </div>
+            <div class="col-md-10">
+                <img :src="form4.imageFile" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: "#content",
+        data() {
+            return {
+                form1:{
+                    files: new FormData,
+                    imageFile: ''
+                },
+                 form2:{
+                    files: new FormData,
+                    imageFile: ''
+                },
+                 form3:{
+                    files: new FormData,
+                    imageFile: ''
+                },
+                 form4:{
+                    files: new FormData,
+                    imageFile: ''
+                }
+            }
+        },
+        methods: {
+            fileChange(targetForm,fileList) {
+                targetForm.files.append("csvFile", fileList[0], fileList[0].name);
+            },
+            upload(form) {
+                axios({ method: "POST", "url": "/api/machine/", "data": form.files }).then(result => {
+                    console.dir(result.data);
+                    form.imageFile = result.data.imageFile
+                }, error => {
+                    console.error(error);
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>
